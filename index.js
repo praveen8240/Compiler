@@ -5,8 +5,10 @@ const path = require("path");
 const fs = require("fs");
 const cors = require("cors");
 const { v4: uuidv4 } = require("uuid");
-
+require('dotenv').config();
 const app = express();
+
+
 app.use(
   cors({
     origin: ["http://localhost:3000"],
@@ -15,7 +17,7 @@ app.use(
     allowedHeaders: "Content-Type,Authorization",
   })
 );
-const PORT = 7777;
+const PORT = process.env.PORT;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -112,7 +114,7 @@ const compileAndRun = (
   });
 };
 
-app.post("/run-code", (req, res) => {
+app.post(`${process.env.Run_API}`, (req, res) => {
   try{
   let { code, fileExtension, inputs } = req.body;
   //   console.log("code: " + code);
@@ -200,7 +202,7 @@ app.post("/run-code", (req, res) => {
 });
 
 
-app.post("/submit-code", (req, res) => {
+app.post(`${process.env.SUBMIT_API}`, (req, res) => {
   try{
   let {
     code,
