@@ -9,6 +9,7 @@ require('dotenv').config();
 const app = express();
 
 
+
 app.use(
   cors({
     origin: ["http://localhost:3000"],
@@ -17,15 +18,14 @@ app.use(
     allowedHeaders: "Content-Type,Authorization",
   })
 );
+
+
 const PORT = process.env.PORT;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.set("view engine", "ejs");
-app.get("/", (req, res) => {
-  // res.render("index");
-});
+
 
 const generateUniqueFileName = (baseName, extension) => {
   return `${baseName}_${uuidv4()}${extension}`;
@@ -101,7 +101,7 @@ const compileAndRun = (
 
   inputs.forEach((input, index) => {
     runCommand(compileCmd, runCmd, input, (result) => {
-      results[index] = { input: input, output: result }; // Ensure the output is stored in the correct order
+      results[index] = { input: input, output: result };
       completed++;
       if (completed === inputs.length) {
         // Ensure cleanup is done after all inputs have been processed
@@ -219,10 +219,10 @@ app.post(`${process.env.SUBMIT_API}`, (req, res) => {
     correctCode = correctCode.replace(/public\s+class\s+(\w+)/g, "class $1");
   }
      // Function to escape \n within double-quoted strings
-     const escapeNewLinesInDoubleQuotes = (text) => {
+    const escapeNewLinesInDoubleQuotes = (text) => {
       return text.replace(/"[^"]*?\n[^"]*?"/g, (match) => match.replace(/\n/g, '\\n'));
     };
-  
+
     // Escape \n in double-quoted strings
     code = escapeNewLinesInDoubleQuotes(code);
     correctCode = escapeNewLinesInDoubleQuotes(correctCode);
